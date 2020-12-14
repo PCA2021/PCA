@@ -1,4 +1,4 @@
-/large_data/
-/notebooks/.ipynb_checkpoints/
-/.ipynb_checkpoints/
-/data/
+./large_data/
+./notebooks/.ipynb_checkpoints/
+.ipynb_checkpoints/
+./data/
