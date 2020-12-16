@@ -1,23 +1,119 @@
-import streamlit as st
-
 import numpy as np
 import pandas as pd
+import streamlit as st
+import time
+from os import path
+from os import remove
 
-st.markdown("""# This is a header
-## This is a sub header
-This is text""")
+st.set_page_config(
+    page_title="PCA",
+    page_icon="🐍",
+    layout="centered", # wide
+    initial_sidebar_state="auto") # collapsed
 
-df = pd.DataFrame({
-          'first column': list(range(1, 11)),
-          'second column': np.arange(10, 101, 10)
-        })
+st.sidebar.markdown(f"""
+    # Header resizer
+    """)
 
-# this slider allows the user to select a number of lines
-# to display in the dataframe
-# the selected value is returned by st.slider
-line_count = st.slider('Select a line count', 1, 10, 3)
+font_size = st.sidebar.slider('Changer header size', 16, 72, 36)
 
-# and used in order to select the displayed lines
-head_df = df.head(line_count)
+FONT_SIZE_CSS = f"""
+<style>
+h1 {{
+    font-size: {font_size}px !important;
+}}
+</style>
+"""
+st.write(FONT_SIZE_CSS, unsafe_allow_html=True)
 
-head_df
+st.markdown("""
+    # Personality Chat Assistant
+
+    ## Please upload your target text
+
+""")
+st.set_option('deprecation.showfileUploaderEncoding', False)
+
+uploaded_file = st.file_uploader("Choose a text file", type="txt")
+
+if uploaded_file is not None:
+    data = uploaded_file
+    st.write(data)
+    with open('data.txt', 'w') as f:
+        f.write('data')
+
+st.markdown("""
+    ## Do you want our model to base on your data?(which is time consuming)
+
+""")
+
+@st.cache(suppress_st_warning=True)
+def fine_tune(uploaded_file):
+    # Add a placeholder
+    latest_iteration = st.empty()
+    bar = st.progress(0)
+
+    for i in range(100):
+        # Update the progress bar with each iteration.
+        latest_iteration.text(f'Iteration {i+1}')
+        bar.progress(i + 1)
+        time.sleep(0.01)
+
+
+    bar.empty()
+    latest_iteration.empty()
+
+if st.checkbox('Yes&Finetune'):
+    if path.exists('data.txt'):
+        with open('data.txt', 'r') as f:
+            if(str(f.read()) == 'data'):
+                st.write('Our model is finetuned based on your data')
+                'Starting a long computation...'
+                fine_tune(uploaded_file)
+                latest_iteration = st.empty()
+                latest_iteration.text(f'Iteration 100')
+                bar = st.progress(100)
+                '...and now we\'re done!'
+    else:
+        st.write('''
+    Please upload a txt file
+    ''')
+
+if st.button('Classification'):
+    # print is visible in server output, not in the page
+    print('button clicked!')
+    st.write('Target Personality type is blah..., click here to see more https://cn.pornhub.com')
+    # st.write('Further clicks are not visible but are executed')
+
+if path.exists('data.txt'):
+    with open('data.txt', 'r') as f:
+        if(str(f.read()) == 'data'):
+            st.write('Target Personality type is blah..., click here to see more https://cn.pornhub.com')
+
+
+st.markdown("""
+    ## Now give us your prompt text and see what we can do
+
+""")
+txt = st.text_area('Text to analyze', '''
+
+    ''')
+if st.button('Generate text'):
+    # print is visible in server output, not in the page
+    print('button clicked!')
+    st.write(f'{txt} blahblahblah I am handsome 🔞')
+
+if path.exists('data.txt'):
+    with open('data.txt', 'r') as f:
+        if(str(f.read()) == 'data'):
+                st.write(f'{txt} blahblahblah I am handsome 🔞')
+
+if st.button('More 🎈🎈🎈 please!'):
+    st.balloons()
+
+if st.button('Remove all'):
+    if path.exists('data.txt'):
+        remove('data.txt')
+        'Already clean'
+    else:
+        'Already clean!!!!!!!!!!!!!!!!!!!!!!!🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕'
