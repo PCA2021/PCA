@@ -4,12 +4,30 @@ import streamlit as st
 import time
 from os import path
 from os import remove
+import pickle
+from urllib.request import urlopen
+import cloudpickle as cp
 
 st.set_page_config(
     page_title="PCA",
     page_icon="🐍",
     layout="centered", # wide
     initial_sidebar_state="auto") # collapsed
+
+@st.cache(suppress_st_warning=True, allow_output_mutation=True)
+def load_rf_model():
+    RF_IE_Model = pickle.load(open("notebooks/models/RF_IE_Model_2.0", 'rb'))
+    RF_JP_Model = pickle.load(open("notebooks/models/RF_JP_Model_2.0", 'rb'))
+    RF_NS_Model = pickle.load(open("notebooks/models/RF_NS_Model_2.0", 'rb'))
+    RF_TF_Model = pickle.load(open("notebooks/models/RF_TF_Model_2.0", 'rb'))
+    return RF_IE_Model, RF_JP_Model, RF_NS_Model, RF_TF_Model
+@st.cache(suppress_st_warning=True, allow_output_mutation=True)
+def load_bert_model():
+    bert = pickle.load(urlopen("https://drive.google.com/file/d/1U03uM8J360eoB06pnmgEDlZEYj5_qm10/view?usp=sharing", 'rb'))
+    return bert
+
+rf_models = load_rf_model()
+bert_model = load_bert_model()
 
 st.sidebar.markdown(f"""
     # Header resizer
