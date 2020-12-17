@@ -23,7 +23,7 @@ def load_rf_model():
     return RF_IE_Model, RF_JP_Model, RF_NS_Model, RF_TF_Model
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
 def load_bert_model():
-    bert = pickle.load(urlopen("https://drive.google.com/file/d/1U03uM8J360eoB06pnmgEDlZEYj5_qm10/view?usp=sharing", 'rb'))
+    bert = cp.load(urlopen("https://drive.google.com/file/d/1U03uM8J360eoB06pnmgEDlZEYj5_qm10/view?usp=sharing", 'rb'))
     return bert
 
 rf_models = load_rf_model()
