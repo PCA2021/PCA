@@ -1,6 +1,6 @@
 # PCA
 See our Personality Assistant on Heroku: [Perca](perca.herokuapp.com) <br>
-*didn't deploy our text generation models to Heroku since they needs a huge amount of space and fee to be deployed*
+*didn't deploy our text generation models to Heroku since they need a huge amount of space and fee to be deployed*
 
 ### Objective
 To help the user facilitate communication and improve relationships with others by classifying the Myers-Briggs Type Indicator (MBTI) personalities of people via NLP machine learning models
